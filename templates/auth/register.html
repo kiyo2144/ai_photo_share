@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}ユーザー登録 | 写真共有アプリ{% endblock %}
+
+{% block content %}
+  <h1>ユーザー登録</h1>
+
+  <form method="post">
+    {{ form.hidden_tag() }}
+
+    <div>
+      {{ form.display_name.label }}
+      {{ form.display_name(autocomplete="name") }}
+      {% for error in form.display_name.errors %}
+        <p role="alert">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      {{ form.email.label }}
+      {{ form.email(autocomplete="email") }}
+      {% for error in form.email.errors %}
+        <p role="alert">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      {{ form.password.label }}
+      {{ form.password(autocomplete="new-password") }}
+      {% for error in form.password.errors %}
+        <p role="alert">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      {{ form.password_confirmation.label }}
+      {{ form.password_confirmation(autocomplete="new-password") }}
+      {% for error in form.password_confirmation.errors %}
+        <p role="alert">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    {{ form.submit() }}
+  </form>
+
+  <p><a href="{{ url_for('login') }}">ログインはこちら</a></p>
+  <p><a href="{{ url_for('post_list') }}">キャンセル</a></p>
+{% endblock %}

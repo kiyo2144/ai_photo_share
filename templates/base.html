@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}写真共有アプリ{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <a href="{{ url_for('post_list') }}">写真共有アプリ</a>
+      <nav aria-label="メインナビゲーション">
+        {% if current_user.is_authenticated %}
+          <span>{{ current_user.display_name }}</span>
+          <form method="post" action="{{ url_for('logout') }}">
+            {{ logout_form.hidden_tag() }}
+            {{ logout_form.submit() }}
+          </form>
+        {% else %}
+          <a href="{{ url_for('login') }}">ログイン</a>
+          <a href="{{ url_for('register') }}">ユーザー登録</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul aria-label="お知らせ">
+          {% for category, message in messages %}
+            <li data-category="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

@@ -1,1 +1,30 @@
 .venv/
+docs/implementation-challenges.md
+# 秘密情報・環境別設定
+.env
+.env.*
+!.env.example
+
+# Pythonキャッシュ
+__pycache__/
+*.py[cod]
+
+# Flaskの実行時データ
+/instance/
+
+# Flask-Sessionのローカルセッション
+/flask_session/
+
+# SQLiteデータベース
+*.db
+*.sqlite
+*.sqlite3
+*.db-*
+*.sqlite-*
+*.sqlite3-*
+
+# pytestキャッシュ
+.pytest_cache/
+
+# ローカルの実装メモ
+docs/implementation-challenges.md

@@ -1,32 +1,53 @@
 {% extends "base.html" %}
 
 {% block title %}ログイン | 写真共有アプリ{% endblock %}
+{% block body_class %}auth-page{% endblock %}
 
 {% block content %}
-  <h1>ログイン</h1>
-
-  <form method="post">
-    {{ form.hidden_tag() }}
-
-    <div>
-      {{ form.email.label }}
-      {{ form.email(autocomplete="email") }}
-      {% for error in form.email.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
+  <section class="auth-layout">
+    <div class="auth-intro">
+      <p class="section-number">02 / LOGIN</p>
+      <h1 class="auth-title">WELCOME<br>BACK</h1>
+      <p class="auth-copy">アカウントにログインして、<br>写真共有を続けましょう。</p>
+      <p class="auth-note">NEW TO PHOTO SHARE?</p>
+      <a class="text-link" href="{{ url_for('register') }}">ユーザー登録はこちら →</a>
     </div>
 
-    <div>
-      {{ form.password.label }}
-      {{ form.password(autocomplete="current-password") }}
-      {% for error in form.password.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
+    <div class="auth-panel">
+      <div class="auth-panel-heading">
+        <span>LOGIN FORM</span>
+        <span>MEMBERS ONLY</span>
+      </div>
+
+      <form class="auth-form" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.email.label }}
+            <span>EMAIL</span>
+          </div>
+          {{ form.email(class_="form-input", autocomplete="email", placeholder="hello@example.com") }}
+          {% for error in form.email.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.password.label }}
+            <span>PASSWORD</span>
+          </div>
+          {{ form.password(class_="form-input", autocomplete="current-password", placeholder="パスワードを入力") }}
+          {% for error in form.password.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        {{ form.submit(class_="submit-button") }}
+      </form>
+
+      <a class="cancel-link" href="{{ url_for('post_list') }}">← トップへ戻る</a>
     </div>
-
-    {{ form.submit() }}
-  </form>
-
-  <p><a href="{{ url_for('register') }}">ユーザー登録はこちら</a></p>
-  <p><a href="{{ url_for('post_list') }}">キャンセル</a></p>
+  </section>
 {% endblock %}

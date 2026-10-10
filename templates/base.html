@@ -4,36 +4,55 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}写真共有アプリ{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
-  <body>
-    <header>
-      <a href="{{ url_for('post_list') }}">写真共有アプリ</a>
-      <nav aria-label="メインナビゲーション">
+  <body class="{% block body_class %}{% endblock %}">
+    <header class="site-header">
+      <a class="site-brand" href="{{ url_for('post_list') }}" aria-label="写真共有アプリ トップへ">
+        <span class="site-brand-mark" aria-hidden="true">P/S</span>
+        <span class="site-brand-name">PHOTO SHARE</span>
+      </a>
+      <nav class="site-nav" aria-label="メインナビゲーション">
         {% if current_user.is_authenticated %}
-          <span>{{ current_user.display_name }}</span>
-          <form method="post" action="{{ url_for('logout') }}">
+          <a class="nav-link nav-link-accent" href="{{ url_for('post_create') }}">POST</a>
+          <span class="user-chip">
+            <span class="user-chip-dot" aria-hidden="true"></span>
+            {{ current_user.display_name }}
+          </span>
+          <form class="nav-form" method="post" action="{{ url_for('logout') }}">
             {{ logout_form.hidden_tag() }}
-            {{ logout_form.submit() }}
+            {{ logout_form.submit(class_="nav-link nav-button") }}
           </form>
         {% else %}
-          <a href="{{ url_for('login') }}">ログイン</a>
-          <a href="{{ url_for('register') }}">ユーザー登録</a>
+          <a class="nav-link" href="{{ url_for('login') }}">LOGIN</a>
+          <a class="nav-link nav-link-accent" href="{{ url_for('register') }}">JOIN US</a>
         {% endif %}
       </nav>
     </header>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <ul aria-label="お知らせ">
+        <ul class="flash-list" aria-label="お知らせ">
           {% for category, message in messages %}
-            <li data-category="{{ category }}">{{ message }}</li>
+            <li class="flash-message" data-category="{{ category }}">
+              <span class="flash-label">{{ category }}</span>
+              <span>{{ message }}</span>
+            </li>
           {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
 
-    <main>
+    <main class="site-main">
       {% block content %}{% endblock %}
     </main>
+
+    <footer class="site-footer">
+      <p class="footer-wordmark">PHOTO / SHARE</p>
+      <p class="footer-copy">SHARE THE MOMENTS YOU WANT TO KEEP.</p>
+    </footer>
   </body>
 </html>

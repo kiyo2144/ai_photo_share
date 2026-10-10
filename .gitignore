@@ -1,5 +1,9 @@
 .venv/
 docs/implementation-challenges.md
+
+# ユーザーが投稿した画像（ディレクトリ維持用ファイルは追跡する）
+/uploads/posts/*
+!/uploads/posts/.gitkeep
 # 秘密情報・環境別設定
 .env
 .env.*

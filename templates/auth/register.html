@@ -1,48 +1,75 @@
 {% extends "base.html" %}
 
 {% block title %}ユーザー登録 | 写真共有アプリ{% endblock %}
+{% block body_class %}auth-page{% endblock %}
 
 {% block content %}
-  <h1>ユーザー登録</h1>
-
-  <form method="post">
-    {{ form.hidden_tag() }}
-
-    <div>
-      {{ form.display_name.label }}
-      {{ form.display_name(autocomplete="name") }}
-      {% for error in form.display_name.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
+  <section class="auth-layout">
+    <div class="auth-intro">
+      <p class="section-number">01 / JOIN</p>
+      <h1 class="auth-title">CREATE<br>ACCOUNT</h1>
+      <p class="auth-copy">写真を共有するための<br>アカウントを作成します。</p>
+      <p class="auth-note">ALREADY A MEMBER?</p>
+      <a class="text-link" href="{{ url_for('login') }}">ログインはこちら →</a>
     </div>
 
-    <div>
-      {{ form.email.label }}
-      {{ form.email(autocomplete="email") }}
-      {% for error in form.email.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
+    <div class="auth-panel">
+      <div class="auth-panel-heading">
+        <span>REGISTRATION FORM</span>
+        <span>必須項目</span>
+      </div>
+
+      <form class="auth-form" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.display_name.label }}
+            <span>DISPLAY NAME</span>
+          </div>
+          {{ form.display_name(class_="form-input", autocomplete="name", placeholder="例：山田 花子") }}
+          {% for error in form.display_name.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.email.label }}
+            <span>EMAIL</span>
+          </div>
+          {{ form.email(class_="form-input", autocomplete="email", placeholder="hello@example.com") }}
+          {% for error in form.email.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.password.label }}
+            <span>PASSWORD</span>
+          </div>
+          {{ form.password(class_="form-input", autocomplete="new-password", placeholder="8文字以上") }}
+          {% for error in form.password.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="form-field">
+          <div class="form-label-row">
+            {{ form.password_confirmation.label }}
+            <span>CONFIRM</span>
+          </div>
+          {{ form.password_confirmation(class_="form-input", autocomplete="new-password", placeholder="もう一度入力") }}
+          {% for error in form.password_confirmation.errors %}
+            <p class="form-error" role="alert">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        {{ form.submit(class_="submit-button") }}
+      </form>
+
+      <a class="cancel-link" href="{{ url_for('post_list') }}">← トップへ戻る</a>
     </div>
-
-    <div>
-      {{ form.password.label }}
-      {{ form.password(autocomplete="new-password") }}
-      {% for error in form.password.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    <div>
-      {{ form.password_confirmation.label }}
-      {{ form.password_confirmation(autocomplete="new-password") }}
-      {% for error in form.password_confirmation.errors %}
-        <p role="alert">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    {{ form.submit() }}
-  </form>
-
-  <p><a href="{{ url_for('login') }}">ログインはこちら</a></p>
-  <p><a href="{{ url_for('post_list') }}">キャンセル</a></p>
+  </section>
 {% endblock %}

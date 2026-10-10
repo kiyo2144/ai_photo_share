@@ -1,7 +1,95 @@
 {% extends "base.html" %}
 
 {% block title %}写真共有アプリ{% endblock %}
+{% block body_class %}home-page{% endblock %}
 
 {% block content %}
-  <h1>写真共有アプリ</h1>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-kicker">
+      <span>01</span>
+      <span>PHOTO COMMUNITY</span>
+    </div>
+
+    <h1 class="hero-title" id="hero-title">
+      <span>PHOTO</span>
+      <span class="hero-title-outline">SHARE</span>
+    </h1>
+
+    <div class="hero-meta">
+      <p class="hero-description">
+        何気ない今日も、旅先の一瞬も。<br>
+        大切な写真を、友人と気軽に分かち合う場所。
+      </p>
+      {% if current_user.is_authenticated %}
+        <p class="hero-status">WELCOME BACK, {{ current_user.display_name }}</p>
+      {% else %}
+        <a class="arrow-link" href="{{ url_for('register') }}">
+          <span>はじめる</span>
+          <span class="arrow-link-icon" aria-hidden="true">→</span>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-art-frame"></div>
+      <div class="hero-art-circle"></div>
+      <div class="hero-art-label">CAPTURE<br>EVERYDAY<br>MOMENTS</div>
+    </div>
+  </section>
+
+  <section class="intro-strip" aria-label="アプリ紹介">
+    <p>写真共有アプリ</p>
+    <p>PRIVATE MOMENTS / OPEN MEMORIES / 2026</p>
+  </section>
+
+  <section class="post-section" aria-labelledby="post-list-title">
+    <div class="section-heading">
+      <div>
+        <p class="section-number">02 / LATEST POSTS</p>
+        <h2 id="post-list-title">NEW<br>MEMORIES</h2>
+      </div>
+      {% if current_user.is_authenticated %}
+        <a class="arrow-link" href="{{ url_for('post_create') }}">
+          <span>写真を投稿する</span>
+          <span class="arrow-link-icon" aria-hidden="true">→</span>
+        </a>
+      {% endif %}
+    </div>
+
+    {% if posts %}
+      <div class="post-grid">
+        {% for post in posts %}
+          <article class="post-card">
+            <div class="post-image-frame">
+              <img
+                src="{{ url_for('uploaded_post_image', filename=post.image_path.split('/')[-1]) }}"
+                alt="{{ post.caption }}"
+                width="{{ post.image_width }}"
+                height="{{ post.image_height }}"
+                loading="lazy"
+              >
+              <span class="post-index">{{ "%02d"|format(loop.index) }}</span>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span>{{ post.user.display_name }}</span>
+                <time datetime="{{ post.created_at.isoformat() }}">
+                  {{ post.created_at.strftime('%Y.%m.%d %H:%M') }}
+                </time>
+              </div>
+              <p class="post-caption">{{ post.caption }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p class="empty-state-en">NO PHOTOS YET.</p>
+        <p>まだ投稿はありません。最初の一枚を共有してみましょう。</p>
+        {% if current_user.is_authenticated %}
+          <a class="button-primary" href="{{ url_for('post_create') }}">写真を投稿する</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
 {% endblock %}

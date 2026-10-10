@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}写真を投稿 | 写真共有アプリ{% endblock %}
+{% block body_class %}post-create-page{% endblock %}
+
+{% block content %}
+  <section class="post-create-layout" aria-labelledby="post-create-title">
+    <div class="post-create-intro">
+      <p class="section-number">NEW POST / 01</p>
+      <h1 id="post-create-title">SHARE<br>YOUR<br>MOMENT</h1>
+      <p>残しておきたい一瞬を、短い言葉と一緒に共有しましょう。</p>
+    </div>
+
+    <div class="post-create-panel">
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-field">
+          {{ form.image.label(class_="form-label") }}
+          {{ form.image(class_="file-input", accept=".png,.jpg,.jpeg,.gif,image/png,image/jpeg,image/gif") }}
+          <p class="field-help">PNG・JPG・JPEG・GIF、10MB以下</p>
+          {% for error in form.image.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <div class="form-field">
+          {{ form.caption.label(class_="form-label") }}
+          {{ form.caption(class_="form-input form-textarea", maxlength="200", rows="5", placeholder="この写真について書いてください") }}
+          <p class="field-help">200文字以内</p>
+          {% for error in form.caption.errors %}
+            <p class="form-error">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        {{ form.submit(class_="button-primary form-submit") }}
+      </form>
+      <a class="text-link" href="{{ url_for('post_list') }}">← 投稿一覧へ戻る</a>
+    </div>
+  </section>
+{% endblock %}
